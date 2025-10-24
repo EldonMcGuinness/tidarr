@@ -119,19 +119,8 @@ export function replacePathInM3U(): void {
   }
 }
 
-function setUmask(umask: string) {
-  const output_chmod = execSync(
-    `chmod -R ${umask} ${ROOT_PATH}/download/incomplete/*`,
-    {
-      encoding: "utf-8",
-    },
-  );
-  console.log(`- Chmod: ${umask}`, output_chmod);
-}
-
 export async function setPermissions() {
   if (process.env.PUID && process.env.PGID) {
-    setUmask(process.env.UMASK || "755");
 
     const output_chown = execSync(
       `chown -R ${process.env.PUID}:${process.env.PGID} ${ROOT_PATH}/download/incomplete/*`,
@@ -146,7 +135,4 @@ export async function setPermissions() {
     return;
   }
 
-  if (process.env.UMASK) {
-    setUmask(process.env.UMASK);
-  }
 }
